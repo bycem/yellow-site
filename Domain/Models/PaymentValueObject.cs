@@ -2,9 +2,9 @@
 
 namespace Domain.Models;
 
-public class Payment : BaseValueObject
+public class PaymentValueObject : BaseValueObject
 {
-    public Payment(decimal amount, bool isSuccess)
+    public PaymentValueObject(decimal amount, bool isSuccess)
     {
         if (amount <= 0)
             throw new ArgumentException("Amount cannot be lower or equal to zero");

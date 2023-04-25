@@ -9,7 +9,7 @@ public class Order : BaseEntity, IAggregateRoot
         Customer seller,
         Customer buyer,
         decimal sellingPrice,
-        List<Payment> payments, bool isApproved, DateTime? createDate = null) : base(id, createDate)
+        List<PaymentValueObject> payments, bool isApproved, DateTime? createDate = null) : base(id, createDate)
     {
         VehicleListing = vehicleListing;
         Seller = seller;
@@ -25,8 +25,8 @@ public class Order : BaseEntity, IAggregateRoot
     public decimal SellingPrice { get; protected set; }
     public bool IsApproved { get; protected set; }
 
-    public IReadOnlyCollection<Payment> Payments => _payments.AsReadOnly();
-    private readonly List<Payment> _payments;
+    public IReadOnlyCollection<PaymentValueObject> Payments => _payments.AsReadOnly();
+    private readonly List<PaymentValueObject> _payments;
     
     public decimal TotalPaymentAmount => _payments.Where(x => x.IsSuccess).Sum(x => x.Amount);
 
@@ -34,19 +34,19 @@ public class Order : BaseEntity, IAggregateRoot
 
     public bool IsEligibleToFinishOrder => TotalPaymentAmount == SellingPrice;
 
-    public void MakePayment(Payment payment)
+    public void MakePayment(PaymentValueObject paymentValueObject)
     {
-        if (payment == null)
-            throw new ArgumentNullException(nameof(payment));
+        if (paymentValueObject == null)
+            throw new ArgumentNullException(nameof(paymentValueObject));
 
-        if (payment.Amount == 0)
-            throw new ArgumentException("Payment amount cannot be equal to zero or lower", nameof(payment));
+        if (paymentValueObject.Amount == 0)
+            throw new ArgumentException("Payment amount cannot be equal to zero or lower", nameof(paymentValueObject));
 
-        var futureAmount = TotalPaymentAmount + payment.Amount;
+        var futureAmount = TotalPaymentAmount + paymentValueObject.Amount;
         if (futureAmount > TotalPaymentAmount)
-            throw new ArgumentException("Total Payment amount cannot be greater than SellingPrice", nameof(payment));
+            throw new ArgumentException("Total Payment amount cannot be greater than SellingPrice", nameof(paymentValueObject));
 
 
-        _payments.Add(payment);
+        _payments.Add(paymentValueObject);
     }
 }
