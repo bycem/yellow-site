@@ -1,6 +1,6 @@
 ﻿using Domain.Abstractions;
 
-namespace Domain.Entities
+namespace Domain.Models
 {
     public class Customer : BaseEntity,IAggregateRoot
     {

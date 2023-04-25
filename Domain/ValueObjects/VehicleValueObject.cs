@@ -2,9 +2,9 @@
 
 namespace Domain.ValueObjects;
 
-public class Vehicle : BaseValueObject
+public class VehicleValueObject : BaseValueObject
 {
-    public Vehicle(string brand, string model, int modelYear)
+    public VehicleValueObject(string brand, string model, int modelYear)
     {
         Brand = brand;
         Model = model;

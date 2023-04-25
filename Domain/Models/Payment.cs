@@ -1,6 +1,6 @@
 ﻿using Domain.Abstractions;
 
-namespace Domain.Entities;
+namespace Domain.Models;
 
 public class Payment : BaseEntity
 {
@@ -10,7 +10,10 @@ public class Payment : BaseEntity
         bool isSuccess,
         DateTime? createDate = null) : base(id, createDate)
     {
-        Customer = customer;
+        if (amount <= 0)
+            throw new ArgumentException("Amount cannot be lower or equal to zero");
+
+        Customer = customer ?? throw new ArgumentException("Customer cannot be null");
         Amount = amount;
         IsSuccess = isSuccess;
     }

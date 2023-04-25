@@ -7,13 +7,10 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Folder Include="Commands\CheckoutVehicle\" />
     <Folder Include="Commands\Login\" />
-    <Folder Include="Commands\ApprovePayment\" />
     <Folder Include="Commands\Register\" />
-    <Folder Include="Queries\ListSoldVehiclesBySellers\" />
     <Folder Include="Queries\ListSoldVehiclesByBuyers\" />
-    <Folder Include="Queries\ListBoughtVehicles\" />
+    <Folder Include="Queries\ListSoldVehiclesBySellers\" />
   </ItemGroup>
 
   <ItemGroup>
