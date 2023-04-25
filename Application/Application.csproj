@@ -6,4 +6,19 @@
     <Nullable>enable</Nullable>
   </PropertyGroup>
 
+  <ItemGroup>
+    <Folder Include="Commands\CheckoutVehicle\" />
+    <Folder Include="Commands\Login\" />
+    <Folder Include="Commands\ApprovePayment\" />
+    <Folder Include="Commands\Register\" />
+    <Folder Include="Queries\ListSoldVehiclesBySellers\" />
+    <Folder Include="Queries\ListSoldVehiclesByBuyers\" />
+    <Folder Include="Queries\ListBoughtVehicles\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="FluentValidation" Version="11.5.2" />
+    <PackageReference Include="MediatR" Version="12.0.1" />
+  </ItemGroup>
+
 </Project>
