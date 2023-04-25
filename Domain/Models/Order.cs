@@ -9,20 +9,22 @@ public class Order : BaseEntity, IAggregateRoot
         Customer seller,
         Customer buyer,
         decimal sellingPrice,
-        List<Payment> payments,
-        DateTime? createDate = null) : base(id, createDate)
+        List<Payment> payments, bool isApproved, DateTime? createDate = null) : base(id, createDate)
     {
         VehicleListing = vehicleListing;
         Seller = seller;
         Buyer = buyer;
         SellingPrice = sellingPrice > 0 ? sellingPrice : throw new ArgumentException("Selling Price cannot be equal to zero or lower");
         _payments = payments;
+        IsApproved = isApproved;
     }
 
     public VehicleListing VehicleListing { get; protected set; }
     public Customer Seller { get; protected set; }
     public Customer Buyer { get; protected set; }
     public decimal SellingPrice { get; protected set; }
+    public bool IsApproved { get; protected set; }
+
     public IReadOnlyCollection<Payment> Payments => _payments.AsReadOnly();
     private readonly List<Payment> _payments;
     
@@ -31,7 +33,6 @@ public class Order : BaseEntity, IAggregateRoot
     public decimal RemainingAmount => SellingPrice - TotalPaymentAmount;
 
     public bool IsEligibleToFinishOrder => TotalPaymentAmount == SellingPrice;
-
 
     public void MakePayment(Payment payment)
     {
