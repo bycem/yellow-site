@@ -1,14 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using MediatR;
+﻿using MediatR;
 
 namespace Application.Commands.CreateVehicleListing
 {
     public class CreateVehicleListingCommand : IRequest<CreateVehicleListingCommandRepresentation>
     {
-
+        public Guid CustomerId { get; set; }
+        public string? Brand { get; init; }
+        public string? Model { get; init; }
+        public int ModelYear { get; init; }
+        public int MileAge { get; init; }
+        public int SellingPrice { get; init; }
     }
 }

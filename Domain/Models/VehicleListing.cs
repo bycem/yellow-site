@@ -5,22 +5,37 @@ namespace Domain.Models;
 
 public class VehicleListing : BaseEntity, IAggregateRoot
 {
-    public VehicleListing(Guid id,
-        Customer customer,
+    public VehicleListing(Guid? id,
+        Guid customerId,
         VehicleValueObject vehicleValueObject,
         int mileAge,
         decimal sellingPrice,
         DateTime? createDate = null) : base(id,
         createDate)
     {
-        Customer = customer;
+        if (customerId == Guid.Empty)
+        {
+            throw new ArgumentException("CustomerId cannot be empty guid", nameof(customerId));
+        }
+
+        if (mileAge < 1900 || mileAge > DateTime.Now.Year + 1)
+        {
+            throw new ArgumentOutOfRangeException(nameof(mileAge));
+        }
+
+        if (sellingPrice <= 0)
+        {
+            throw new ArgumentException("Sellingprice cannot be equal to zero or lower");
+        }
+
+        CustomerId = customerId;
         VehicleValueObject = vehicleValueObject;
         MileAge = mileAge;
         SellingPrice = sellingPrice;
     }
 
 
-    public Customer Customer { get; protected set; }
+    public Guid CustomerId { get; protected set; }
 
     public VehicleValueObject VehicleValueObject { get; protected set; }
 

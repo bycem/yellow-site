@@ -9,13 +9,15 @@
   <ItemGroup>
     <Folder Include="Commands\Login\" />
     <Folder Include="Commands\Register\" />
-    <Folder Include="Queries\ListSoldVehiclesByBuyers\" />
-    <Folder Include="Queries\ListSoldVehiclesBySellers\" />
   </ItemGroup>
 
   <ItemGroup>
     <PackageReference Include="FluentValidation" Version="11.5.2" />
     <PackageReference Include="MediatR" Version="12.0.1" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Domain\Domain.csproj" />
   </ItemGroup>
 
 </Project>
