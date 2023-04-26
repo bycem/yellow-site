@@ -1,4 +1,5 @@
 ﻿using Domain.Models;
+using Domain.ValueObjects;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
@@ -22,12 +23,23 @@ public class VehicleListingEntityConfig : BaseEntityConfiguration<VehicleListing
         builder.Property(x => x.MileAge)
             .IsRequired();
 
+        builder.Property(x => x.Plate)
+            .HasMaxLength(8)
+            .IsRequired();
+
+        builder.HasIndex(x => x.Plate)
+            .IsUnique();
+
+
         builder.OwnsOne(x => x.VehicleValueObject,
             navigationBuilder =>
             {
-                navigationBuilder.Property(x => x.Brand).HasColumnName("Brand").IsRequired().HasMaxLength(64);
-                navigationBuilder.Property(x => x.Model).HasColumnName("Model").IsRequired().HasMaxLength(256);
-                navigationBuilder.Property(x => x.ModelYear).HasColumnName("ModelYear").IsRequired();
+                navigationBuilder.Property(x => x.Brand).HasColumnName(nameof(VehicleValueObject.Brand)).IsRequired().HasMaxLength(64);
+                navigationBuilder.Property(x => x.Model).HasColumnName(nameof(VehicleValueObject.Model)).IsRequired().HasMaxLength(256);
+                navigationBuilder.Property(x => x.ModelYear).HasColumnName(nameof(VehicleValueObject.ModelYear)).IsRequired();
+
+                navigationBuilder.HasIndex(x => x.Brand)
+                    .IncludeProperties(nameof(VehicleValueObject.Model), nameof(VehicleValueObject.ModelYear));
             });
 
 

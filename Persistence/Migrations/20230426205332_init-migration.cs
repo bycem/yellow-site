@@ -188,6 +188,7 @@ namespace Persistence.Migrations
                     Model = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: false),
                     ModelYear = table.Column<int>(type: "int", nullable: false),
                     MileAge = table.Column<int>(type: "int", nullable: false),
+                    Plate = table.Column<string>(type: "nvarchar(8)", maxLength: 8, nullable: false),
                     SellingPrice = table.Column<decimal>(type: "money", nullable: false),
                     IsSold = table.Column<bool>(type: "bit", nullable: false),
                     CreateDate = table.Column<DateTime>(type: "datetime2", nullable: false, defaultValueSql: "getdate()")
@@ -265,10 +266,24 @@ namespace Persistence.Migrations
                 unique: true);
 
             migrationBuilder.CreateIndex(
+                name: "IX_Listings_Brand",
+                schema: "sale",
+                table: "Listings",
+                column: "Brand")
+                .Annotation("SqlServer:Include", new[] { "Model", "ModelYear" });
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Listings_CustomerId",
                 schema: "sale",
                 table: "Listings",
                 column: "CustomerId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Listings_Plate",
+                schema: "sale",
+                table: "Listings",
+                column: "Plate",
+                unique: true);
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)

@@ -9,7 +9,8 @@ public class VehicleListing : BaseEntity, IAggregateRoot
         Customer customer,
         VehicleValueObject vehicleValueObject,
         int mileAge,
-        decimal sellingPrice,
+        decimal sellingPrice, 
+        string plate, 
         bool isSold = false,
         DateTime? createDate = null) : base(id, createDate)
     {
@@ -27,6 +28,7 @@ public class VehicleListing : BaseEntity, IAggregateRoot
         VehicleValueObject = vehicleValueObject;
         MileAge = mileAge;
         SellingPrice = sellingPrice;
+        Plate = plate;
         IsSold = isSold;
     }
 
@@ -35,7 +37,8 @@ public class VehicleListing : BaseEntity, IAggregateRoot
         int mileAge,
         decimal sellingPrice,
         bool isSold,
-        DateTime createDate) : this((Guid?)id, null, null, mileAge, sellingPrice, isSold, createDate)
+        string plate,
+        DateTime createDate) : this((Guid?)id, null, null, mileAge, sellingPrice, plate, isSold, createDate)
     {
     }
 
@@ -44,6 +47,8 @@ public class VehicleListing : BaseEntity, IAggregateRoot
     public VehicleValueObject VehicleValueObject { get; protected set; }
 
     public int MileAge { get; protected set; }
+
+    public string Plate { get; protected set; }
 
     public decimal SellingPrice { get; protected set; }
 

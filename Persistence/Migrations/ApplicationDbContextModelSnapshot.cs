@@ -86,12 +86,20 @@ namespace Persistence.Migrations
                     b.Property<int>("MileAge")
                         .HasColumnType("int");
 
+                    b.Property<string>("Plate")
+                        .IsRequired()
+                        .HasMaxLength(8)
+                        .HasColumnType("nvarchar(8)");
+
                     b.Property<decimal>("SellingPrice")
                         .HasColumnType("money");
 
                     b.HasKey("Id");
 
                     b.HasIndex("CustomerId");
+
+                    b.HasIndex("Plate")
+                        .IsUnique();
 
                     b.ToTable("Listings", "sale");
                 });
@@ -324,6 +332,10 @@ namespace Persistence.Migrations
                                 .HasColumnName("ModelYear");
 
                             b1.HasKey("VehicleListingId");
+
+                            b1.HasIndex("Brand");
+
+                            SqlServerIndexBuilderExtensions.IncludeProperties(b1.HasIndex("Brand"), new[] { "Model", "ModelYear" });
 
                             b1.ToTable("Listings", "sale");
 
