@@ -27,7 +27,7 @@ public class VehicleListingEntityConfig : BaseEntityConfiguration<VehicleListing
             {
                 navigationBuilder.Property(x => x.Brand).HasColumnName("Brand").IsRequired().HasMaxLength(64);
                 navigationBuilder.Property(x => x.Model).HasColumnName("Model").IsRequired().HasMaxLength(256);
-                navigationBuilder.Property(x => x.Model).HasColumnName("Year").IsRequired();
+                navigationBuilder.Property(x => x.ModelYear).HasColumnName("ModelYear").IsRequired();
             });
 
 
