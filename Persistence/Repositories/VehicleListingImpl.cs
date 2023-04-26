@@ -1,6 +1,6 @@
 ﻿using Domain.Interfaces.Repositories;
 using Domain.Models;
-using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
 
 namespace Persistence.Repositories
 {
@@ -18,6 +18,12 @@ namespace Persistence.Repositories
             _context.VehicleListings.Add(listing);
             await _context.SaveChangesAsync();
             return listing.Id;
+        }
+
+        public async Task<VehicleListing> GetByPlateAsync(string plate)
+        {
+            var listing = await _context.VehicleListings.FirstOrDefaultAsync(x => x.Plate == plate);
+            return listing;
         }
     }
 }

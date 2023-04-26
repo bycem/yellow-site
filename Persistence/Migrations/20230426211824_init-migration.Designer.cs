@@ -12,7 +12,7 @@ using Persistence;
 namespace Persistence.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20230426205332_init-migration")]
+    [Migration("20230426211824_init-migration")]
     partial class initmigration
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -43,6 +43,9 @@ namespace Persistence.Migrations
                     b.Property<string>("FullName")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime?>("UpdateDate")
+                        .HasColumnType("datetime2");
 
                     b.Property<string>("UserId")
                         .IsRequired()
@@ -96,12 +99,14 @@ namespace Persistence.Migrations
                     b.Property<decimal>("SellingPrice")
                         .HasColumnType("money");
 
+                    b.Property<DateTime?>("UpdateDate")
+                        .HasColumnType("datetime2");
+
                     b.HasKey("Id");
 
                     b.HasIndex("CustomerId");
 
-                    b.HasIndex("Plate")
-                        .IsUnique();
+                    b.HasIndex("Plate");
 
                     b.ToTable("Listings", "sale");
                 });

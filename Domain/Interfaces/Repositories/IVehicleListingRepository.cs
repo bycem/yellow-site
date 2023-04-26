@@ -5,5 +5,7 @@ namespace Domain.Interfaces.Repositories
     public interface IVehicleListingRepository
     {
         public Task<Guid> CreateAsync(VehicleListing listing);
+
+        public Task<VehicleListing> GetByPlateAsync(string plate);
     }
 }

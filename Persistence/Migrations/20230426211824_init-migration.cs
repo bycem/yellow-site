@@ -64,7 +64,8 @@ namespace Persistence.Migrations
                     Email = table.Column<string>(type: "nvarchar(1024)", maxLength: 1024, nullable: false),
                     FullName = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     UserId = table.Column<string>(type: "nvarchar(128)", maxLength: 128, nullable: false),
-                    CreateDate = table.Column<DateTime>(type: "datetime2", nullable: false, defaultValueSql: "getdate()")
+                    CreateDate = table.Column<DateTime>(type: "datetime2", nullable: false, defaultValueSql: "getdate()"),
+                    UpdateDate = table.Column<DateTime>(type: "datetime2", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -191,7 +192,8 @@ namespace Persistence.Migrations
                     Plate = table.Column<string>(type: "nvarchar(8)", maxLength: 8, nullable: false),
                     SellingPrice = table.Column<decimal>(type: "money", nullable: false),
                     IsSold = table.Column<bool>(type: "bit", nullable: false),
-                    CreateDate = table.Column<DateTime>(type: "datetime2", nullable: false, defaultValueSql: "getdate()")
+                    CreateDate = table.Column<DateTime>(type: "datetime2", nullable: false, defaultValueSql: "getdate()"),
+                    UpdateDate = table.Column<DateTime>(type: "datetime2", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -282,8 +284,7 @@ namespace Persistence.Migrations
                 name: "IX_Listings_Plate",
                 schema: "sale",
                 table: "Listings",
-                column: "Plate",
-                unique: true);
+                column: "Plate");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)

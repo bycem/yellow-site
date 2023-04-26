@@ -27,8 +27,7 @@ public class VehicleListingEntityConfig : BaseEntityConfiguration<VehicleListing
             .HasMaxLength(8)
             .IsRequired();
 
-        builder.HasIndex(x => x.Plate)
-            .IsUnique();
+        builder.HasIndex(x => x.Plate);
 
 
         builder.OwnsOne(x => x.VehicleValueObject,

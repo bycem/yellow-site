@@ -5,13 +5,15 @@ namespace Domain.Models;
 
 public class VehicleListing : BaseEntity, IAggregateRoot
 {
+    protected internal VehicleListing() : base() { }
+
+
     public VehicleListing(Guid? id,
         Customer customer,
         VehicleValueObject vehicleValueObject,
         int mileAge,
-        decimal sellingPrice, 
-        string plate, 
-        bool isSold = false,
+        decimal sellingPrice,
+        string plate,
         DateTime? createDate = null) : base(id, createDate)
     {
         if (mileAge < 0)
@@ -29,18 +31,10 @@ public class VehicleListing : BaseEntity, IAggregateRoot
         MileAge = mileAge;
         SellingPrice = sellingPrice;
         Plate = plate;
-        IsSold = isSold;
+        IsSold = false;
     }
 
 
-    public VehicleListing(Guid id,
-        int mileAge,
-        decimal sellingPrice,
-        bool isSold,
-        string plate,
-        DateTime createDate) : this((Guid?)id, null, null, mileAge, sellingPrice, plate, isSold, createDate)
-    {
-    }
 
     public Customer Customer { get; protected set; }
 
@@ -53,5 +47,14 @@ public class VehicleListing : BaseEntity, IAggregateRoot
     public decimal SellingPrice { get; protected set; }
 
     public bool IsSold { get; protected set; }
+
+    public void SetAsSold()
+    {
+        if (IsSold)
+            throw new ArgumentException("Already Sold", nameof(IsSold));
+
+        IsSold = true;
+        UpdateDate = DateTime.Now;
+    }
 
 }

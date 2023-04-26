@@ -23,7 +23,13 @@ public class CreateVehicleListingCommandHandler : IRequestHandler<CreateVehicleL
     {
         var currentCustomer = await _currentCustomer.Get();
 
-        var id = await _vehicleRepository.CreateAsync(new VehicleListing(null,
+        var existenceListing = await _vehicleRepository.GetByPlateAsync(request.Plate);
+        if (existenceListing is { IsSold: false })
+        {
+            throw new ArgumentException($"There is active listing by following plate:{request.Plate}");
+        }
+
+        var listing = new VehicleListing(null,
             currentCustomer,
             new VehicleValueObject(
                 request.Brand,
@@ -31,9 +37,10 @@ public class CreateVehicleListingCommandHandler : IRequestHandler<CreateVehicleL
                 request.ModelYear),
             request.MileAge,
             request.SellingPrice,
-            request.Plate,
-            false));
+            request.Plate);
 
+        var id = await _vehicleRepository.CreateAsync(listing);
+        
         return new CreateVehicleListingCommandRepresentation() { Id = id };
 
     }

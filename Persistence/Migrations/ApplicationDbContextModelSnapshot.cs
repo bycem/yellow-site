@@ -42,6 +42,9 @@ namespace Persistence.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<DateTime?>("UpdateDate")
+                        .HasColumnType("datetime2");
+
                     b.Property<string>("UserId")
                         .IsRequired()
                         .HasMaxLength(128)
@@ -94,12 +97,14 @@ namespace Persistence.Migrations
                     b.Property<decimal>("SellingPrice")
                         .HasColumnType("money");
 
+                    b.Property<DateTime?>("UpdateDate")
+                        .HasColumnType("datetime2");
+
                     b.HasKey("Id");
 
                     b.HasIndex("CustomerId");
 
-                    b.HasIndex("Plate")
-                        .IsUnique();
+                    b.HasIndex("Plate");
 
                     b.ToTable("Listings", "sale");
                 });
