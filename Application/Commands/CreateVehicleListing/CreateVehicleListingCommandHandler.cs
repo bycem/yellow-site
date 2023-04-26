@@ -30,7 +30,8 @@ public class CreateVehicleListingCommandHandler : IRequestHandler<CreateVehicleL
                 request.Model,
                 request.ModelYear),
             request.MileAge,
-            request.SellingPrice));
+            request.SellingPrice,
+            true));
 
         return new CreateVehicleListingCommandRepresentation() { Id = id };
 

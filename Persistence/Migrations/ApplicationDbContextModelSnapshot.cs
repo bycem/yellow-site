@@ -80,6 +80,9 @@ namespace Persistence.Migrations
                     b.Property<Guid>("CustomerId")
                         .HasColumnType("uniqueidentifier");
 
+                    b.Property<bool>("IsSold")
+                        .HasColumnType("bit");
+
                     b.Property<int>("MileAge")
                         .HasColumnType("int");
 
