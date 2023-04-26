@@ -2,9 +2,10 @@
 
 namespace Domain.Models;
 
-public class PaymentValueObject : BaseValueObject
+public class Payment : BaseEntity
 {
-    public PaymentValueObject(decimal amount, bool isSuccess)
+    public Payment() { }
+    public Payment(decimal amount, bool isSuccess) : base(null, null)
     {
         if (amount <= 0)
             throw new ArgumentException("Amount cannot be lower or equal to zero");
@@ -15,8 +16,6 @@ public class PaymentValueObject : BaseValueObject
     public decimal Amount { get; protected set; }
     public bool IsSuccess { get; protected set; }
 
-    protected override IEnumerable<object?> GetEqualityComponents()
-    {
-        yield return Amount;
-    }
+    public Guid OrderId { get; protected set; }
+    public Order Order { get; protected set; }
 }

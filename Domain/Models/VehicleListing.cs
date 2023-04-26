@@ -8,13 +8,12 @@ public class VehicleListing : BaseEntity, IAggregateRoot
     protected internal VehicleListing() : base() { }
 
 
-    public VehicleListing(Guid? id,
+    public VehicleListing(
         Customer customer,
         VehicleValueObject vehicleValueObject,
         int mileAge,
         decimal sellingPrice,
-        string plate,
-        DateTime? createDate = null) : base(id, createDate)
+        string plate) : base(null,null)
     {
         if (mileAge < 0)
         {

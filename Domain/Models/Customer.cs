@@ -31,5 +31,6 @@ namespace Domain.Models
         public string FullName { get; protected set; }
 
         public string UserId { get; protected set; }
+        public ICollection<Order> Orders { get; protected set; }
     }
 }

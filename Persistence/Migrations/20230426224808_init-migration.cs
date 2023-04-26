@@ -15,6 +15,9 @@ namespace Persistence.Migrations
             migrationBuilder.EnsureSchema(
                 name: "sale");
 
+            migrationBuilder.EnsureSchema(
+                name: "accounting");
+
             migrationBuilder.CreateTable(
                 name: "AspNetRoles",
                 columns: table => new
@@ -207,6 +210,77 @@ namespace Persistence.Migrations
                         onDelete: ReferentialAction.Cascade);
                 });
 
+            migrationBuilder.CreateTable(
+                name: "Orders",
+                schema: "accounting",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    VehicleListingId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    SellerId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    BuyerId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    SellingPrice = table.Column<decimal>(type: "money", nullable: false),
+                    IsApproved = table.Column<bool>(type: "bit", nullable: false),
+                    CustomerId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
+                    CreateDate = table.Column<DateTime>(type: "datetime2", nullable: false, defaultValueSql: "getdate()"),
+                    UpdateDate = table.Column<DateTime>(type: "datetime2", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Orders", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Orders_Customers_BuyerId",
+                        column: x => x.BuyerId,
+                        principalSchema: "accounts",
+                        principalTable: "Customers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_Orders_Customers_CustomerId",
+                        column: x => x.CustomerId,
+                        principalSchema: "accounts",
+                        principalTable: "Customers",
+                        principalColumn: "Id");
+                    table.ForeignKey(
+                        name: "FK_Orders_Customers_SellerId",
+                        column: x => x.SellerId,
+                        principalSchema: "accounts",
+                        principalTable: "Customers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_Orders_Listings_VehicleListingId",
+                        column: x => x.VehicleListingId,
+                        principalSchema: "sale",
+                        principalTable: "Listings",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Payments",
+                schema: "accounting",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    Amount = table.Column<decimal>(type: "money", nullable: false),
+                    IsSuccess = table.Column<bool>(type: "bit", nullable: false),
+                    OrderId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    CreateDate = table.Column<DateTime>(type: "datetime2", nullable: false, defaultValueSql: "getdate()"),
+                    UpdateDate = table.Column<DateTime>(type: "datetime2", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Payments", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Payments_Orders_OrderId",
+                        column: x => x.OrderId,
+                        principalSchema: "accounting",
+                        principalTable: "Orders",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
             migrationBuilder.CreateIndex(
                 name: "IX_AspNetRoleClaims_RoleId",
                 table: "AspNetRoleClaims",
@@ -285,6 +359,39 @@ namespace Persistence.Migrations
                 schema: "sale",
                 table: "Listings",
                 column: "Plate");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Orders_BuyerId",
+                schema: "accounting",
+                table: "Orders",
+                column: "BuyerId",
+                unique: true);
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Orders_CustomerId",
+                schema: "accounting",
+                table: "Orders",
+                column: "CustomerId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Orders_SellerId",
+                schema: "accounting",
+                table: "Orders",
+                column: "SellerId",
+                unique: true);
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Orders_VehicleListingId",
+                schema: "accounting",
+                table: "Orders",
+                column: "VehicleListingId",
+                unique: true);
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Payments_OrderId",
+                schema: "accounting",
+                table: "Payments",
+                column: "OrderId");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
@@ -305,14 +412,22 @@ namespace Persistence.Migrations
                 name: "AspNetUserTokens");
 
             migrationBuilder.DropTable(
-                name: "Listings",
-                schema: "sale");
+                name: "Payments",
+                schema: "accounting");
 
             migrationBuilder.DropTable(
                 name: "AspNetRoles");
 
             migrationBuilder.DropTable(
                 name: "AspNetUsers");
+
+            migrationBuilder.DropTable(
+                name: "Orders",
+                schema: "accounting");
+
+            migrationBuilder.DropTable(
+                name: "Listings",
+                schema: "sale");
 
             migrationBuilder.DropTable(
                 name: "Customers",

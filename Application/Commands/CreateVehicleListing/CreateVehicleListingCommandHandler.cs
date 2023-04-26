@@ -29,7 +29,7 @@ public class CreateVehicleListingCommandHandler : IRequestHandler<CreateVehicleL
             throw new ArgumentException($"There is active listing by following plate:{request.Plate}");
         }
 
-        var listing = new VehicleListing(null,
+        var listing = new VehicleListing(
             currentCustomer,
             new VehicleValueObject(
                 request.Brand,
@@ -40,7 +40,7 @@ public class CreateVehicleListingCommandHandler : IRequestHandler<CreateVehicleL
             request.Plate);
 
         var id = await _vehicleRepository.CreateAsync(listing);
-        
+
         return new CreateVehicleListingCommandRepresentation() { Id = id };
 
     }

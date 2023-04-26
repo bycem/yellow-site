@@ -4,12 +4,14 @@ namespace Domain.Models;
 
 public class Order : BaseEntity, IAggregateRoot
 {
+    protected internal Order(){}
+
     public Order(Guid id,
         VehicleListing vehicleListing,
         Customer seller,
         Customer buyer,
         decimal sellingPrice,
-        List<PaymentValueObject> payments, bool isApproved, DateTime? createDate = null) : base(id, createDate)
+        List<Payment> payments, bool isApproved, DateTime? createDate = null) : base(id, createDate)
     {
         VehicleListing = vehicleListing;
         Seller = seller;
@@ -19,14 +21,20 @@ public class Order : BaseEntity, IAggregateRoot
         IsApproved = isApproved;
     }
 
+    public Guid VehicleListingId { get; protected set; }
     public VehicleListing VehicleListing { get; protected set; }
+
+    public Guid SellerId { get; protected set; }
     public Customer Seller { get; protected set; }
+
+    public Guid BuyerId { get; protected set; }
     public Customer Buyer { get; protected set; }
+
     public decimal SellingPrice { get; protected set; }
     public bool IsApproved { get; protected set; }
 
-    public IReadOnlyCollection<PaymentValueObject> Payments => _payments.AsReadOnly();
-    private readonly List<PaymentValueObject> _payments;
+    public IReadOnlyCollection<Payment> Payments => _payments.AsReadOnly();
+    protected readonly List<Payment> _payments;
     
     public decimal TotalPaymentAmount => _payments.Where(x => x.IsSuccess).Sum(x => x.Amount);
 
@@ -34,7 +42,7 @@ public class Order : BaseEntity, IAggregateRoot
 
     public bool IsEligibleToFinishOrder => TotalPaymentAmount == SellingPrice;
 
-    public void MakePayment(PaymentValueObject paymentValueObject)
+    public void MakePayment(Payment paymentValueObject)
     {
         if (paymentValueObject == null)
             throw new ArgumentNullException(nameof(paymentValueObject));
