@@ -4,10 +4,12 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace Persistence.EntityConfigurations
 {
-    public class CustomerEntityConfig : IEntityTypeConfiguration<Customer>
+    public class CustomerEntityConfig : BaseEntityConfiguration<Customer>
     {
-        public void Configure(EntityTypeBuilder<Customer> builder)
+        public override void Configure(EntityTypeBuilder<Customer> builder)
         {
+            base.Configure(builder);
+
             builder.ToTable("Customers", schema: "accounts");
 
             builder.Property(x => x.Email)

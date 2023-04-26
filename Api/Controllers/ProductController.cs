@@ -11,6 +11,8 @@ namespace Api.Controllers
         [HttpGet(Name = "GetWeatherForecast")]
         public string Get()
         {
+            var username = HttpContext.User.Identity;
+
             return "Test";
         }
     }

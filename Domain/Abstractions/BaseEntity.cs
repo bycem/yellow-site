@@ -1,8 +1,8 @@
 ﻿namespace Domain.Abstractions
 {
-    public class BaseEntity
+    public abstract class BaseEntity
     {
-        public BaseEntity(Guid? id, DateTime? createDate = null)
+        protected BaseEntity(Guid? id, DateTime? createDate = null)
         {
             if (id == Guid.Empty) throw new ArgumentException("Id cannot be empty");
             if (createDate == DateTime.MinValue) throw new ArgumentException("Create date cannot be datetime min value");
@@ -11,7 +11,7 @@
             CreateDate = createDate ?? DateTime.Now;
         }
 
-        public BaseEntity(Guid id, DateTime createDate)
+        protected BaseEntity(Guid id, DateTime createDate)
         {
             Id = id;
             CreateDate = createDate;

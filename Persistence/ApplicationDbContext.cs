@@ -16,8 +16,6 @@ namespace Persistence
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
-            builder.ApplyConfiguration(new BaseEntityConfig());
-
             builder.ApplyConfiguration(new CustomerEntityConfig());
 
             base.OnModelCreating(builder);
