@@ -7,5 +7,6 @@ namespace Domain.Interfaces.Repositories
         public Task<Guid> CreateAsync(VehicleListing listing);
         public Task<bool> HasAnyActiveListingAsync(string plate);
 
+        Task<List<VehicleListing>> GetActiveListingsAsync();
     }
 }

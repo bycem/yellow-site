@@ -25,5 +25,11 @@ namespace Persistence.Repositories
             var hasAnyActiveListing = await _context.VehicleListings.AnyAsync(x => x.Plate == plate && !x.IsSold);
             return hasAnyActiveListing;
         }
+
+        public async Task<List<VehicleListing>> GetActiveListingsAsync()
+        {
+            var activeListings = await _context.VehicleListings.Where(x => !x.IsSold).ToListAsync();
+            return activeListings;
+        }
     }
 }
