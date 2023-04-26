@@ -233,8 +233,7 @@ namespace Persistence.Migrations
                         column: x => x.BuyerId,
                         principalSchema: "accounts",
                         principalTable: "Customers",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        principalColumn: "Id");
                     table.ForeignKey(
                         name: "FK_Orders_Customers_CustomerId",
                         column: x => x.CustomerId,
@@ -246,8 +245,7 @@ namespace Persistence.Migrations
                         column: x => x.SellerId,
                         principalSchema: "accounts",
                         principalTable: "Customers",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        principalColumn: "Id");
                     table.ForeignKey(
                         name: "FK_Orders_Listings_VehicleListingId",
                         column: x => x.VehicleListingId,
@@ -364,8 +362,7 @@ namespace Persistence.Migrations
                 name: "IX_Orders_BuyerId",
                 schema: "accounting",
                 table: "Orders",
-                column: "BuyerId",
-                unique: true);
+                column: "BuyerId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Orders_CustomerId",
@@ -377,15 +374,13 @@ namespace Persistence.Migrations
                 name: "IX_Orders_SellerId",
                 schema: "accounting",
                 table: "Orders",
-                column: "SellerId",
-                unique: true);
+                column: "SellerId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Orders_VehicleListingId",
                 schema: "accounting",
                 table: "Orders",
-                column: "VehicleListingId",
-                unique: true);
+                column: "VehicleListingId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Payments_OrderId",

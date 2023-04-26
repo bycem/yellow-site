@@ -12,15 +12,13 @@ public class OrderEntityConfig : BaseEntityConfiguration<Order>
 
         builder.ToTable("Orders", schema: "accounting");
 
-        builder.HasOne(x => x.Seller).WithOne();
-        builder.HasOne(x => x.Buyer).WithOne();
-        builder.HasOne(x => x.VehicleListing).WithOne();
+        builder.HasOne(x => x.Seller).WithMany().OnDelete(DeleteBehavior.NoAction);
+        builder.HasOne(x => x.Buyer).WithMany().OnDelete(DeleteBehavior.NoAction);
+        builder.HasOne(x => x.VehicleListing).WithMany();
 
-        builder.HasMany(x=>x.Payments).WithOne(x=>x.Order);
+        builder.HasMany("_payments").WithOne("Order").HasForeignKey("OrderId");
 
         builder.Property(x => x.SellingPrice).HasColumnType("money");
 
-        builder.HasIndex(x => x.SellerId);
-        builder.HasIndex(x => x.BuyerId);
     }
 }

@@ -4,7 +4,7 @@ namespace Domain.Models;
 
 public class Order : BaseEntity, IAggregateRoot
 {
-    protected internal Order(){}
+    protected internal Order() { }
 
     public Order(Guid id,
         VehicleListing vehicleListing,
@@ -21,21 +21,22 @@ public class Order : BaseEntity, IAggregateRoot
         IsApproved = isApproved;
     }
 
-    public Guid VehicleListingId { get; protected set; }
     public VehicleListing VehicleListing { get; protected set; }
 
-    public Guid SellerId { get; protected set; }
     public Customer Seller { get; protected set; }
 
-    public Guid BuyerId { get; protected set; }
     public Customer Buyer { get; protected set; }
 
     public decimal SellingPrice { get; protected set; }
     public bool IsApproved { get; protected set; }
 
-    public IReadOnlyCollection<Payment> Payments => _payments.AsReadOnly();
-    protected readonly List<Payment> _payments;
-    
+    public IReadOnlyCollection<Payment> Payments()
+    {
+        return _payments.AsReadOnly();
+    }
+
+    protected List<Payment> _payments { get; set; }
+
     public decimal TotalPaymentAmount => _payments.Where(x => x.IsSuccess).Sum(x => x.Amount);
 
     public decimal RemainingAmount => SellingPrice - TotalPaymentAmount;

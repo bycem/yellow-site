@@ -103,16 +103,13 @@ namespace Persistence.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("BuyerId")
-                        .IsUnique();
+                    b.HasIndex("BuyerId");
 
                     b.HasIndex("CustomerId");
 
-                    b.HasIndex("SellerId")
-                        .IsUnique();
+                    b.HasIndex("SellerId");
 
-                    b.HasIndex("VehicleListingId")
-                        .IsUnique();
+                    b.HasIndex("VehicleListingId");
 
                     b.ToTable("Orders", "accounting");
                 });
@@ -388,9 +385,9 @@ namespace Persistence.Migrations
             modelBuilder.Entity("Domain.Models.Order", b =>
                 {
                     b.HasOne("Domain.Models.Customer", "Buyer")
-                        .WithOne()
-                        .HasForeignKey("Domain.Models.Order", "BuyerId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .WithMany()
+                        .HasForeignKey("BuyerId")
+                        .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
 
                     b.HasOne("Domain.Models.Customer", null)
@@ -398,14 +395,14 @@ namespace Persistence.Migrations
                         .HasForeignKey("CustomerId");
 
                     b.HasOne("Domain.Models.Customer", "Seller")
-                        .WithOne()
-                        .HasForeignKey("Domain.Models.Order", "SellerId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .WithMany()
+                        .HasForeignKey("SellerId")
+                        .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
 
                     b.HasOne("Domain.Models.VehicleListing", "VehicleListing")
-                        .WithOne()
-                        .HasForeignKey("Domain.Models.Order", "VehicleListingId")
+                        .WithMany()
+                        .HasForeignKey("VehicleListingId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
@@ -419,7 +416,7 @@ namespace Persistence.Migrations
             modelBuilder.Entity("Domain.Models.Payment", b =>
                 {
                     b.HasOne("Domain.Models.Order", "Order")
-                        .WithMany("Payments")
+                        .WithMany("_payments")
                         .HasForeignKey("OrderId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -532,7 +529,7 @@ namespace Persistence.Migrations
 
             modelBuilder.Entity("Domain.Models.Order", b =>
                 {
-                    b.Navigation("Payments");
+                    b.Navigation("_payments");
                 });
 #pragma warning restore 612, 618
         }
