@@ -20,10 +20,10 @@ namespace Persistence.Repositories
             return listing.Id;
         }
 
-        public async Task<VehicleListing> GetByPlateAsync(string plate)
+        public async Task<bool> HasAnyActiveListingAsync(string plate)
         {
-            var listing = await _context.VehicleListings.FirstOrDefaultAsync(x => x.Plate == plate);
-            return listing;
+            var hasAnyActiveListing = await _context.VehicleListings.AnyAsync(x => x.Plate == plate && !x.IsSold);
+            return hasAnyActiveListing;
         }
     }
 }

@@ -23,8 +23,8 @@ public class CreateVehicleListingCommandHandler : IRequestHandler<CreateVehicleL
     {
         var currentCustomer = await _currentCustomer.Get();
 
-        var existenceListing = await _vehicleRepository.GetByPlateAsync(request.Plate);
-        if (existenceListing is { IsSold: false })
+        var anyActiveListing = await _vehicleRepository.HasAnyActiveListingAsync(request.Plate);
+        if (anyActiveListing)
         {
             throw new ArgumentException($"There is active listing by following plate:{request.Plate}");
         }

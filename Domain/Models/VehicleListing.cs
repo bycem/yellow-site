@@ -31,7 +31,6 @@ public class VehicleListing : BaseEntity, IAggregateRoot
         MileAge = mileAge;
         SellingPrice = sellingPrice;
         Plate = plate;
-        IsSold = false;
     }
 
 
