@@ -22,6 +22,12 @@ public class CustomerEntityConfig : BaseEntityConfiguration<Customer>
             .IsRequired()
             .HasMaxLength(128);
 
-        builder.Property(x => x.UserId).IsRequired();
+        builder.Property(x => x.Username).HasMaxLength(64).IsRequired();
+        builder.Property(x => x.Email).HasMaxLength(1024).IsRequired();
+        builder.Property(x => x.UserId).HasMaxLength(128).IsRequired();
+
+        builder.HasIndex(x => x.UserId).IsUnique();
+        builder.HasIndex(x => x.Username).IsUnique();
+        builder.HasIndex(x => x.Email).IsUnique();
     }
 }

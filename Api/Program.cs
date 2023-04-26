@@ -1,7 +1,7 @@
 using Api.Common;
+using Api.Identity;
 using Application.Commands.ApprovePayment;
 using Application.Shared;
-using Domain.Interfaces.Repositories;
 using FluentValidation.AspNetCore;
 using MediatR;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
@@ -10,10 +10,8 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using Persistence;
-using Persistence.Repositories;
-using System.Text;
-using Api.Identity;
 using Persistence.Services.CurrentCustomer;
+using System.Text;
 
 var builder = WebApplication.CreateBuilder(args);
 ConfigurationManager configuration = builder.Configuration;
@@ -22,7 +20,13 @@ ConfigurationManager configuration = builder.Configuration;
 builder.Services.AddPersistenceConfig(configuration.GetConnectionString("connMSSQL"));
 
 // For Identity
-builder.Services.AddIdentity<IdentityUser, IdentityRole>()
+builder.Services.AddIdentity<IdentityUser, IdentityRole>(options =>
+    {
+        options.Password.RequiredLength = 5;
+        options.Password.RequireNonAlphanumeric = false;
+        options.User.RequireUniqueEmail = true;
+        options.Lockout.MaxFailedAccessAttempts = 5;
+    })
     .AddEntityFrameworkStores<ApplicationDbContext>()
     .AddDefaultTokenProviders();
 
