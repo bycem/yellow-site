@@ -12,12 +12,14 @@ using Microsoft.OpenApi.Models;
 using Persistence;
 using Persistence.Repositories;
 using System.Text;
+using Api.Identity;
+using Persistence.Services.CurrentCustomer;
 
 var builder = WebApplication.CreateBuilder(args);
 ConfigurationManager configuration = builder.Configuration;
 
 // For Entity Framework
-builder.Services.AddDbContext<ApplicationDbContext>(options => options.UseSqlServer(configuration.GetConnectionString("connMSSQL")));
+builder.Services.AddPersistenceConfig(configuration.GetConnectionString("connMSSQL"));
 
 // For Identity
 builder.Services.AddIdentity<IdentityUser, IdentityRole>()
@@ -52,15 +54,13 @@ builder.Services.AddMediatR(cfg => cfg.RegisterServicesFromAssembly(typeof(Appro
 builder.Services.AddTransient(typeof(IPipelineBehavior<,>), typeof(RequestValidationBehavior<,>));
 builder.Services.AddFluentValidationAutoValidation();
 
-
-builder.Services.AddScoped<IVehicleListingRepository, VehicleListingImpl>();
-builder.Services.AddScoped<ICustomerRepository, CustomerRepositoryImpl>();
-
+builder.Services.AddScoped<ICurrentUserService, CurrentUserServiceWebApiImpl>();
 
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen(c => {
+builder.Services.AddSwaggerGen(c =>
+{
     c.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
     {
         Description =
@@ -92,6 +92,12 @@ builder.Services.AddSwaggerGen(c => {
 });
 
 var app = builder.Build();
+
+using (var scope = app.Services.CreateScope())
+{
+    var dbContext = scope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
+    dbContext.Database.EnsureCreated();
+}
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())

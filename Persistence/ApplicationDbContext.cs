@@ -17,10 +17,12 @@ namespace Persistence
         protected override void OnModelCreating(ModelBuilder builder)
         {
             builder.ApplyConfiguration(new CustomerEntityConfig());
+            builder.ApplyConfiguration(new VehicleListingEntityConfig());
 
             base.OnModelCreating(builder);
         }
 
         public DbSet<Customer> Customers { get; set; }
+        public DbSet<VehicleListing> VehicleListings { get; set; }
     }
 }

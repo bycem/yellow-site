@@ -55,6 +55,33 @@ namespace Persistence.Migrations
                     b.ToTable("Customers", "accounts");
                 });
 
+            modelBuilder.Entity("Domain.Models.VehicleListing", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTime>("CreateDate")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("datetime2")
+                        .HasDefaultValueSql("getdate()");
+
+                    b.Property<Guid>("CustomerId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<int>("MileAge")
+                        .HasColumnType("int");
+
+                    b.Property<decimal>("SellingPrice")
+                        .HasColumnType("money");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("CustomerId");
+
+                    b.ToTable("Listings", "sale");
+                });
+
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
                 {
                     b.Property<string>("Id")
@@ -251,6 +278,48 @@ namespace Persistence.Migrations
                     b.HasKey("UserId", "LoginProvider", "Name");
 
                     b.ToTable("AspNetUserTokens", (string)null);
+                });
+
+            modelBuilder.Entity("Domain.Models.VehicleListing", b =>
+                {
+                    b.HasOne("Domain.Models.Customer", "Customer")
+                        .WithMany()
+                        .HasForeignKey("CustomerId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.OwnsOne("Domain.ValueObjects.VehicleValueObject", "VehicleValueObject", b1 =>
+                        {
+                            b1.Property<Guid>("VehicleListingId")
+                                .HasColumnType("uniqueidentifier");
+
+                            b1.Property<string>("Brand")
+                                .IsRequired()
+                                .HasMaxLength(64)
+                                .HasColumnType("nvarchar(64)")
+                                .HasColumnName("Brand");
+
+                            b1.Property<string>("Model")
+                                .IsRequired()
+                                .HasMaxLength(256)
+                                .HasColumnType("nvarchar(256)")
+                                .HasColumnName("Year");
+
+                            b1.Property<int>("ModelYear")
+                                .HasColumnType("int");
+
+                            b1.HasKey("VehicleListingId");
+
+                            b1.ToTable("Listings", "sale");
+
+                            b1.WithOwner()
+                                .HasForeignKey("VehicleListingId");
+                        });
+
+                    b.Navigation("Customer");
+
+                    b.Navigation("VehicleValueObject")
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>

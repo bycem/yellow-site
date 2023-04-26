@@ -13,10 +13,11 @@ namespace Persistence.Repositories
             _context = context;
         }
 
-        public Task<Guid> CreateAsync(VehicleListing listing)
+        public async Task<Guid> CreateAsync(VehicleListing listing)
         {
-            _context.Add(new IdentityUser());
-            throw new NotImplementedException();
+            _context.VehicleListings.Add(listing);
+            await _context.SaveChangesAsync();
+            return listing.Id;
         }
     }
 }

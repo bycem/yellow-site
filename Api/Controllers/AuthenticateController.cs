@@ -53,7 +53,7 @@ namespace Api.Controllers
 
                 return Ok(new
                 {
-                    token = new JwtSecurityTokenHandler().WriteToken(token),
+                    token = $"Bearer {new JwtSecurityTokenHandler().WriteToken(token)}",
                     expiration = token.ValidTo
                 });
             }

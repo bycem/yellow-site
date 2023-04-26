@@ -4,6 +4,6 @@ namespace Domain.Interfaces.Services
 {
     public interface ICurrentCustomer
     {
-        Customer Get();
+        Task<Customer> Get();
     }
 }
