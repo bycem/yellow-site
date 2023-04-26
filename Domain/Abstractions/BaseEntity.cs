@@ -11,6 +11,12 @@
             CreateDate = createDate ?? DateTime.Now;
         }
 
+        public BaseEntity(Guid id, DateTime createDate)
+        {
+            Id = id;
+            CreateDate = createDate;
+        }
+
         public Guid Id { get; protected set; }
         public DateTime CreateDate { get; protected set; }
     }
