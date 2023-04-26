@@ -12,9 +12,10 @@ public class OrderEntityConfig : BaseEntityConfiguration<Order>
 
         builder.ToTable("Orders", schema: "accounting");
 
-        builder.HasOne(x => x.Seller).WithMany().OnDelete(DeleteBehavior.NoAction);
-        builder.HasOne(x => x.Buyer).WithMany().OnDelete(DeleteBehavior.NoAction);
-        builder.HasOne(x => x.VehicleListing).WithMany();
+        builder.HasOne(x => x.Seller).WithMany().HasForeignKey("FK_SellerId").IsRequired().OnDelete(DeleteBehavior.NoAction);
+        builder.HasOne(x => x.Buyer).WithMany().HasForeignKey("FK_BuyerId").IsRequired().OnDelete(DeleteBehavior.NoAction);
+
+        builder.HasOne(x => x.VehicleListing).WithMany().IsRequired().OnDelete(DeleteBehavior.NoAction);
 
         builder.HasMany("_payments").WithOne("Order").HasForeignKey("OrderId");
 

@@ -16,6 +16,6 @@ public class Payment : BaseEntity
     public decimal Amount { get; protected set; }
     public bool IsSuccess { get; protected set; }
 
-    public Guid OrderId { get; protected set; }
     public Order Order { get; protected set; }
+
 }

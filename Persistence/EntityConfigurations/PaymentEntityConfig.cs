@@ -12,7 +12,7 @@ public class PaymentEntityConfig : BaseEntityConfiguration<Payment>
 
         builder.ToTable("Payments", schema: "accounting");
 
-        builder.HasOne(x => x.Order);
+        builder.HasOne(x => x.Order).WithMany();
 
         builder.Property(x => x.Amount).HasColumnType("money");
 

@@ -217,11 +217,10 @@ namespace Persistence.Migrations
                 {
                     Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     VehicleListingId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    SellerId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    BuyerId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    FK_SellerId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    FK_BuyerId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     SellingPrice = table.Column<decimal>(type: "money", nullable: false),
                     IsApproved = table.Column<bool>(type: "bit", nullable: false),
-                    CustomerId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
                     CreateDate = table.Column<DateTime>(type: "datetime2", nullable: false, defaultValueSql: "getdate()"),
                     UpdateDate = table.Column<DateTime>(type: "datetime2", nullable: true)
                 },
@@ -229,20 +228,14 @@ namespace Persistence.Migrations
                 {
                     table.PrimaryKey("PK_Orders", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Orders_Customers_BuyerId",
-                        column: x => x.BuyerId,
+                        name: "FK_Orders_Customers_FK_BuyerId",
+                        column: x => x.FK_BuyerId,
                         principalSchema: "accounts",
                         principalTable: "Customers",
                         principalColumn: "Id");
                     table.ForeignKey(
-                        name: "FK_Orders_Customers_CustomerId",
-                        column: x => x.CustomerId,
-                        principalSchema: "accounts",
-                        principalTable: "Customers",
-                        principalColumn: "Id");
-                    table.ForeignKey(
-                        name: "FK_Orders_Customers_SellerId",
-                        column: x => x.SellerId,
+                        name: "FK_Orders_Customers_FK_SellerId",
+                        column: x => x.FK_SellerId,
                         principalSchema: "accounts",
                         principalTable: "Customers",
                         principalColumn: "Id");
@@ -251,8 +244,7 @@ namespace Persistence.Migrations
                         column: x => x.VehicleListingId,
                         principalSchema: "sale",
                         principalTable: "Listings",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        principalColumn: "Id");
                 });
 
             migrationBuilder.CreateTable(
@@ -359,22 +351,16 @@ namespace Persistence.Migrations
                 column: "Plate");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Orders_BuyerId",
+                name: "IX_Orders_FK_BuyerId",
                 schema: "accounting",
                 table: "Orders",
-                column: "BuyerId");
+                column: "FK_BuyerId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Orders_CustomerId",
+                name: "IX_Orders_FK_SellerId",
                 schema: "accounting",
                 table: "Orders",
-                column: "CustomerId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Orders_SellerId",
-                schema: "accounting",
-                table: "Orders",
-                column: "SellerId");
+                column: "FK_SellerId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Orders_VehicleListingId",

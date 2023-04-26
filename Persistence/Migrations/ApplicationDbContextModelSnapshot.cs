@@ -75,22 +75,19 @@ namespace Persistence.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<Guid>("BuyerId")
-                        .HasColumnType("uniqueidentifier");
-
                     b.Property<DateTime>("CreateDate")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("datetime2")
                         .HasDefaultValueSql("getdate()");
 
-                    b.Property<Guid?>("CustomerId")
+                    b.Property<Guid>("FK_BuyerId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid>("FK_SellerId")
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<bool>("IsApproved")
                         .HasColumnType("bit");
-
-                    b.Property<Guid>("SellerId")
-                        .HasColumnType("uniqueidentifier");
 
                     b.Property<decimal>("SellingPrice")
                         .HasColumnType("money");
@@ -103,11 +100,9 @@ namespace Persistence.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("BuyerId");
+                    b.HasIndex("FK_BuyerId");
 
-                    b.HasIndex("CustomerId");
-
-                    b.HasIndex("SellerId");
+                    b.HasIndex("FK_SellerId");
 
                     b.HasIndex("VehicleListingId");
 
@@ -386,24 +381,20 @@ namespace Persistence.Migrations
                 {
                     b.HasOne("Domain.Models.Customer", "Buyer")
                         .WithMany()
-                        .HasForeignKey("BuyerId")
+                        .HasForeignKey("FK_BuyerId")
                         .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
 
-                    b.HasOne("Domain.Models.Customer", null)
-                        .WithMany("Orders")
-                        .HasForeignKey("CustomerId");
-
                     b.HasOne("Domain.Models.Customer", "Seller")
                         .WithMany()
-                        .HasForeignKey("SellerId")
+                        .HasForeignKey("FK_SellerId")
                         .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
 
                     b.HasOne("Domain.Models.VehicleListing", "VehicleListing")
                         .WithMany()
                         .HasForeignKey("VehicleListingId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
 
                     b.Navigation("Buyer");
@@ -520,11 +511,6 @@ namespace Persistence.Migrations
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-                });
-
-            modelBuilder.Entity("Domain.Models.Customer", b =>
-                {
-                    b.Navigation("Orders");
                 });
 
             modelBuilder.Entity("Domain.Models.Order", b =>
