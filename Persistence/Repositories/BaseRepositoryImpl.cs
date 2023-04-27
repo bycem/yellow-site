@@ -1,4 +1,5 @@
-﻿using Domain.Abstractions;
+﻿using System.Linq.Expressions;
+using Domain.Abstractions;
 using Microsoft.EntityFrameworkCore;
 
 namespace Persistence.Repositories
@@ -19,6 +20,11 @@ namespace Persistence.Repositories
             var result = await _context.Set<T>().FirstOrDefaultAsync(x => x.Id == id);
 
             return result;
+        }
+
+        public async Task<List<T>> ListAsync(Expression<Func<T, bool>> predicate)
+        {
+            return await _context.Set<T>().Where(predicate).ToListAsync();
         }
 
         public async Task<Guid> CreateAsync(T entity)

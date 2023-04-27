@@ -2,7 +2,4 @@
 
 namespace Application.Queries.ListBoughtVehicles;
 
-public class ListBoughtVehiclesQuery : IRequest<ListBoughtVehiclesQueryRepresentation>
-{
-
-}
+public class ListBoughtVehiclesQuery : IRequest<ListBoughtVehiclesQueryRepresentation> { }

@@ -20,7 +20,7 @@ ConfigurationManager configuration = builder.Configuration;
 // For Entity Framework
 builder.Services.AddPersistenceConfig(configuration.GetConnectionString("connMSSQL"));
 
-builder.Services.AddSingleton<IOrderDomainService, OrderDomainServiceImpl>();
+builder.Services.AddScoped<IOrderDomainService, OrderDomainServiceImpl>();
 
 // For Identity
 builder.Services.AddIdentity<IdentityUser, IdentityRole>(options =>

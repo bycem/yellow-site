@@ -1,34 +1,37 @@
 ﻿using Domain.Models;
 
-namespace Application.Queries.ListBoughtVehicles;
+namespace Application.Queries.ListSoldVehiclesByBuyers;
 
-public class ListBoughtVehiclesQueryRepresentation
+public class ListSoldVehiclesQueryRepresentation
 {
-    public ListBoughtVehiclesQueryRepresentation(List<BoughtVehiclesOrderDto> orders)
+    public ListSoldVehiclesQueryRepresentation(IEnumerable<SoldVehiclesOrderDto> orders)
     {
         Orders = orders;
     }
 
-    public List<BoughtVehiclesOrderDto> Orders { get; set; }
+    public IEnumerable<SoldVehiclesOrderDto> Orders { get; set; }
 }
 
-public record BoughtVehiclesOrderDto
+
+public record SoldVehiclesOrderDto
 {
     public string Brand { get; set; }
     public string Model { get; set; }
     public int ModelYear { get; set; }
     public int MileAge { get; set; }
     public DateTime? SellingDate { get; set; }
+    public string BuyerName { get; set; }
 
-    public static explicit operator BoughtVehiclesOrderDto(Order order)
+    public static explicit operator SoldVehiclesOrderDto(Order order)
     {
-        return new BoughtVehiclesOrderDto
+        return new SoldVehiclesOrderDto
         {
             Brand = order.VehicleListing.VehicleValueObject.Brand,
             Model = order.VehicleListing.VehicleValueObject.Model,
             ModelYear = order.VehicleListing.VehicleValueObject.ModelYear,
             MileAge = order.VehicleListing.MileAge,
-            SellingDate = order.SellingDate
+            SellingDate = order.SellingDate,
+            BuyerName = order.Buyer.FullName
         };
     }
 }

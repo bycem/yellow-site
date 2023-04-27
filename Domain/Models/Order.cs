@@ -30,6 +30,8 @@ public class Order : BaseEntity, IEntity
 
     public bool IsApproved { get; protected set; }
 
+    public DateTime? SellingDate { get; protected set; }
+
     public IReadOnlyCollection<Payment> Payments()
     {
         return _payments.AsReadOnly();
@@ -71,7 +73,8 @@ public class Order : BaseEntity, IEntity
             VehicleListing.SetAsSold();
 
             IsApproved = true;
-            UpdateDate = DateTime.Now;
+            SellingDate = DateTime.Now;
+            UpdateDate = SellingDate;
         }
     }
 }
