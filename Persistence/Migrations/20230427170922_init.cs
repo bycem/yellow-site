@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace Persistence.Migrations
 {
-    public partial class initmigration : Migration
+    public partial class init : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -217,8 +217,8 @@ namespace Persistence.Migrations
                 {
                     Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     VehicleListingId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    FK_SellerId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    FK_BuyerId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    SellerId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    BuyerId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     SellingPrice = table.Column<decimal>(type: "money", nullable: false),
                     IsApproved = table.Column<bool>(type: "bit", nullable: false),
                     CreateDate = table.Column<DateTime>(type: "datetime2", nullable: false, defaultValueSql: "getdate()"),
@@ -228,14 +228,14 @@ namespace Persistence.Migrations
                 {
                     table.PrimaryKey("PK_Orders", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Orders_Customers_FK_BuyerId",
-                        column: x => x.FK_BuyerId,
+                        name: "FK_Orders_Customers_BuyerId",
+                        column: x => x.BuyerId,
                         principalSchema: "accounts",
                         principalTable: "Customers",
                         principalColumn: "Id");
                     table.ForeignKey(
-                        name: "FK_Orders_Customers_FK_SellerId",
-                        column: x => x.FK_SellerId,
+                        name: "FK_Orders_Customers_SellerId",
+                        column: x => x.SellerId,
                         principalSchema: "accounts",
                         principalTable: "Customers",
                         principalColumn: "Id");
@@ -351,16 +351,16 @@ namespace Persistence.Migrations
                 column: "Plate");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Orders_FK_BuyerId",
+                name: "IX_Orders_BuyerId",
                 schema: "accounting",
                 table: "Orders",
-                column: "FK_BuyerId");
+                column: "BuyerId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Orders_FK_SellerId",
+                name: "IX_Orders_SellerId",
                 schema: "accounting",
                 table: "Orders",
-                column: "FK_SellerId");
+                column: "SellerId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Orders_VehicleListingId",

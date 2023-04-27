@@ -25,7 +25,6 @@ namespace Persistence.Migrations
             modelBuilder.Entity("Domain.Models.Customer", b =>
                 {
                     b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<DateTime>("CreateDate")
@@ -72,7 +71,9 @@ namespace Persistence.Migrations
             modelBuilder.Entity("Domain.Models.Order", b =>
                 {
                     b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid>("BuyerId")
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<DateTime>("CreateDate")
@@ -80,14 +81,11 @@ namespace Persistence.Migrations
                         .HasColumnType("datetime2")
                         .HasDefaultValueSql("getdate()");
 
-                    b.Property<Guid>("FK_BuyerId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<Guid>("FK_SellerId")
-                        .HasColumnType("uniqueidentifier");
-
                     b.Property<bool>("IsApproved")
                         .HasColumnType("bit");
+
+                    b.Property<Guid>("SellerId")
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<decimal>("SellingPrice")
                         .HasColumnType("money");
@@ -100,9 +98,9 @@ namespace Persistence.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("FK_BuyerId");
+                    b.HasIndex("BuyerId");
 
-                    b.HasIndex("FK_SellerId");
+                    b.HasIndex("SellerId");
 
                     b.HasIndex("VehicleListingId");
 
@@ -112,7 +110,6 @@ namespace Persistence.Migrations
             modelBuilder.Entity("Domain.Models.Payment", b =>
                 {
                     b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<decimal>("Amount")
@@ -142,7 +139,6 @@ namespace Persistence.Migrations
             modelBuilder.Entity("Domain.Models.VehicleListing", b =>
                 {
                     b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<DateTime>("CreateDate")
@@ -381,13 +377,13 @@ namespace Persistence.Migrations
                 {
                     b.HasOne("Domain.Models.Customer", "Buyer")
                         .WithMany()
-                        .HasForeignKey("FK_BuyerId")
+                        .HasForeignKey("BuyerId")
                         .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
 
                     b.HasOne("Domain.Models.Customer", "Seller")
                         .WithMany()
-                        .HasForeignKey("FK_SellerId")
+                        .HasForeignKey("SellerId")
                         .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
 
