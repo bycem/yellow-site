@@ -16,8 +16,10 @@ namespace Application.Queries.GetActiveListings
         public async Task<GetActiveListingsQueryRepresentation> Handle(GetActiveListingsQuery request, CancellationToken cancellationToken)
         {
             IEnumerable<VehicleListing> activeListings = await _vehicleListingRepository.GetActiveListingsAsync();
+            activeListings = activeListings.OrderByDescending(x => x.UpdateDate ?? x.CreateDate);
 
             var listingDtos = activeListings.Select(listing => (ListingDto)listing);
+
             return new GetActiveListingsQueryRepresentation(listingDtos);
         }
     }
