@@ -1,4 +1,5 @@
 ﻿using Domain.Abstractions;
+#pragma warning disable CS8618
 
 namespace Domain.Models;
 

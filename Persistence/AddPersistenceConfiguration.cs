@@ -1,4 +1,5 @@
-﻿using Domain.Interfaces.Repositories;
+﻿using Domain.Abstractions;
+using Domain.Interfaces.Repositories;
 using Domain.Interfaces.Services;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
@@ -13,8 +14,9 @@ namespace Persistence
         {
             services.AddDbContext<ApplicationDbContext>(options => options.UseSqlServer(connectionString));
 
+            services.AddScoped(typeof(IRepository<>), typeof(BaseRepositoryImpl<>));
+
             services.AddScoped<IVehicleListingRepository, VehicleListingImpl>();
-            services.AddScoped<ICustomerRepository, CustomerRepositoryImpl>();
             services.AddScoped<ICurrentCustomer, CurrentCustomerImpl>();
 
             return services;

@@ -1,4 +1,4 @@
-﻿using Domain.Interfaces.Repositories;
+﻿using Domain.Abstractions;
 using Domain.Models;
 using MediatR;
 
@@ -6,10 +6,10 @@ namespace Application.Commands.RegisterCustomer
 {
     public class RegisterCustomerCommandHandler : IRequestHandler<RegisterCustomerCommand, RegisterCustomerCommandRepresentation>
     {
-        private readonly ICustomerRepository _customerRepository;
+        private readonly IRepository<Customer> _customerRepository;
 
 
-        public RegisterCustomerCommandHandler(ICustomerRepository customerRepository)
+        public RegisterCustomerCommandHandler(IRepository<Customer> customerRepository)
         {
             _customerRepository = customerRepository;
         }

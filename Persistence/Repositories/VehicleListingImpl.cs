@@ -4,20 +4,13 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Persistence.Repositories
 {
-    public class VehicleListingImpl : IVehicleListingRepository
+    public class VehicleListingImpl : BaseRepositoryImpl<VehicleListing>, IVehicleListingRepository
     {
         private readonly ApplicationDbContext _context;
 
-        public VehicleListingImpl(ApplicationDbContext context)
+        public VehicleListingImpl(ApplicationDbContext context) : base(context)
         {
             _context = context;
-        }
-
-        public async Task<Guid> CreateAsync(VehicleListing listing)
-        {
-            _context.VehicleListings.Add(listing);
-            await _context.SaveChangesAsync();
-            return listing.Id;
         }
 
         public async Task<bool> HasAnyActiveListingAsync(string plate)
@@ -28,7 +21,8 @@ namespace Persistence.Repositories
 
         public async Task<List<VehicleListing>> GetActiveListingsAsync()
         {
-            var activeListings = await _context.VehicleListings.Where(x => !x.IsSold).ToListAsync();
+            var activeListings = await _context.VehicleListings
+                .Where(x => !x.IsSold).ToListAsync();
             return activeListings;
         }
     }

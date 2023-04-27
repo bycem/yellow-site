@@ -41,7 +41,7 @@ public class VehicleListingEntityConfig : BaseEntityConfiguration<VehicleListing
                     .IncludeProperties(nameof(VehicleValueObject.Model), nameof(VehicleValueObject.ModelYear));
             });
 
-
+        builder.Navigation(x => x.Customer).AutoInclude();
 
     }
 }

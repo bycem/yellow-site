@@ -2,6 +2,7 @@ using Api.Common;
 using Api.Identity;
 using Application.Commands.ApprovePayment;
 using Application.Shared;
+using FluentValidation;
 using FluentValidation.AspNetCore;
 using MediatR;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
@@ -55,6 +56,7 @@ builder.Services.AddAuthentication(options =>
 
 builder.Services.AddMediatR(cfg => cfg.RegisterServicesFromAssembly(typeof(ApprovePaymentCommandHandler).Assembly));
 builder.Services.AddTransient(typeof(IPipelineBehavior<,>), typeof(RequestValidationBehavior<,>));
+builder.Services.AddValidatorsFromAssembly(typeof(RequestValidationBehavior<,>).Assembly);
 builder.Services.AddFluentValidationAutoValidation();
 
 builder.Services.AddScoped<ICurrentUserService, CurrentUserServiceWebApiImpl>();

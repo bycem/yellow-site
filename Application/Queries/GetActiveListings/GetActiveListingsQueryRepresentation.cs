@@ -23,13 +23,18 @@ public record ListingDto
             Model = vehicleListing.VehicleValueObject.Model,
             ModelYear = vehicleListing.VehicleValueObject.ModelYear,
             MileAge = vehicleListing.MileAge,
-            SellingPrice = vehicleListing.SellingPrice
+            SellingPrice = vehicleListing.SellingPrice,
+            SellerName = vehicleListing.Customer?.FullName ?? "System Error",
+            LastUpdateDate = vehicleListing.UpdateDate?.Date ?? vehicleListing.CreateDate.Date,
         };
     }
+
 
     public int MileAge { get; set; }
     public string Brand { get; set; }
     public string Model { get; set; }
     public int ModelYear { get; set; }
     public decimal SellingPrice { get; set; }
+    public string SellerName { get; set; }
+    public DateTime? LastUpdateDate { get; set; }
 }
