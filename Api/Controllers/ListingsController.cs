@@ -1,3 +1,4 @@
+using Api.Models.Listings;
 using Application.Commands.CreateVehicleListing;
 using Application.Queries.GetActiveListings;
 using MediatR;
@@ -19,9 +20,9 @@ namespace Api.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> CreateListing(CreateVehicleListingCommand command)
+        public async Task<IActionResult> CreateListing([FromBody] CreateVehicleListingModel command)
         {
-            var result = await _mediator.Send(command);
+            var result = await _mediator.Send((CreateVehicleListingCommand)command);
 
             return Ok(result);
         }

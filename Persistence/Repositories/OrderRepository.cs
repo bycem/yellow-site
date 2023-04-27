@@ -15,5 +15,12 @@ namespace Persistence.Repositories
             var order = await _dbSet.Where(x => x.VehicleListing.Id == vehicleId).ToListAsync();
             return order;
         }
+
+        public async Task UpdateOrderAsync(Order entity)
+        {
+            _context.Orders.Update(entity);
+
+            await _context.SaveChangesAsync();
+        }
     }
 }

@@ -37,9 +37,15 @@ namespace Application.Commands.CreateOrder
                 throw new ArgumentException("Listing is not eligible for selling");
             }
 
+            var seller = listing.Customer;
             var buyer = await _currentCustomer.GetAsync();
 
-            var orderId = await _ordeRepository.CreateAsync(new Order(listing, listing.Customer, buyer, listing.SellingPrice));
+            if (buyer.Id == seller.Id)
+            {
+                throw new ArgumentException("You cannot buy your listing");
+            }
+
+            var orderId = await _ordeRepository.CreateAsync(new Order(listing, seller, buyer, listing.SellingPrice));
 
             return new CreateOrderCommandRepresentation { OrderId = orderId };
         }

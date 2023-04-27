@@ -2,7 +2,7 @@
 
 namespace Domain.Models
 {
-    public class Customer : BaseEntity, IAggregateRoot
+    public class Customer : BaseEntity, IEntity
     {
         public Customer(Guid? id,
             string username,

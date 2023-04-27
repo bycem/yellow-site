@@ -3,9 +3,9 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Persistence.Repositories
 {
-    public class BaseRepositoryImpl<T> : IRepository<T> where T : class, IAggregateRoot
+    public class BaseRepositoryImpl<T> : IRepository<T> where T : class, IEntity
     {
-        private readonly ApplicationDbContext _context;
+        protected readonly ApplicationDbContext _context;
         protected DbSet<T> _dbSet;
 
         public BaseRepositoryImpl(ApplicationDbContext context)
@@ -31,6 +31,8 @@ namespace Persistence.Repositories
         public async Task UpdateAsync(T entity)
         {
             _context.Set<T>().Update(entity);
+            _context.Entry(entity).State = EntityState.Modified;
+
             await _context.SaveChangesAsync();
         }
 

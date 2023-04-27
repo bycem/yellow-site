@@ -1,4 +1,6 @@
-﻿using Application.Commands.CreateOrder;
+﻿using Api.Models.Orders;
+using Application.Commands.ApprovePayment;
+using Application.Commands.CreateOrder;
 using Application.Commands.MakePayment;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
@@ -20,16 +22,31 @@ namespace Api.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> CreateOrder(CreateOrderCommand command)
+        public async Task<IActionResult> CreateOrder([FromBody] CreateOrderModel model)
         {
-            var result = await _mediator.Send(command);
+            var result = await _mediator.Send(new CreateOrderCommand() { VehicleId = model.VehicleId });
             return Ok(result);
         }
 
         [HttpPost("/{orderId}/make-payment")]
-        public async Task<IActionResult> MakePayment(MakePaymentCommand command)
+        public async Task<IActionResult> MakePayment([FromRoute] Guid orderId, [FromBody] MakePaymentModel model)
         {
-            var result = await _mediator.Send(command);
+            var result = await _mediator.Send(new MakePaymentCommand
+            {
+                OrderId = orderId,
+                Amount = model.Amount,
+                IsSuccess = model.IsSuccess
+            });
+            return Ok(result);
+        }
+
+        [HttpPost("/{orderId}/approve-order")]
+        public async Task<IActionResult> ApproveOrder([FromRoute] Guid orderId)
+        {
+            var result = await _mediator.Send(new ApproveOrderCommand
+            {
+                OrderId = orderId
+            });
             return Ok(result);
         }
     }

@@ -1,5 +1,5 @@
 ﻿namespace Application.Commands.ApprovePayment;
 
-public class ApprovePaymentCommandRepresentation
+public class ApproveOrderCommandRepresentation
 {
 }

@@ -1,6 +1,6 @@
 ﻿namespace Domain.Abstractions
 {
-    public interface IRepository<T> where T : IAggregateRoot
+    public interface IRepository<T> where T : IEntity
     {
         Task<T> GetById(Guid id);
         Task<Guid> CreateAsync(T entity);

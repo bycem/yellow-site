@@ -54,7 +54,7 @@ builder.Services.AddAuthentication(options =>
     };
 });
 
-builder.Services.AddMediatR(cfg => cfg.RegisterServicesFromAssembly(typeof(ApprovePaymentCommandHandler).Assembly));
+builder.Services.AddMediatR(cfg => cfg.RegisterServicesFromAssembly(typeof(ApproveOrderCommandHandler).Assembly));
 builder.Services.AddTransient(typeof(IPipelineBehavior<,>), typeof(RequestValidationBehavior<,>));
 builder.Services.AddValidatorsFromAssembly(typeof(RequestValidationBehavior<,>).Assembly);
 builder.Services.AddFluentValidationAutoValidation();

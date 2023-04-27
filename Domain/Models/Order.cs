@@ -3,7 +3,7 @@
 
 namespace Domain.Models;
 
-public class Order : BaseEntity, IAggregateRoot
+public class Order : BaseEntity, IEntity
 {
     protected internal Order() { }
 
@@ -41,30 +41,35 @@ public class Order : BaseEntity, IAggregateRoot
 
     public decimal RemainingAmount => SellingPrice - TotalPaymentAmount;
 
-    public bool IsEligibleToFinishOrder => TotalPaymentAmount == SellingPrice;
+    public bool IsEligibleToApproveOrder => TotalPaymentAmount == SellingPrice;
 
-    public void MakePayment(Payment paymentValueObject)
+    public void AddPayment(decimal amount, bool isSuccess)
     {
-        if (paymentValueObject == null)
-            throw new ArgumentNullException(nameof(paymentValueObject));
+        if (amount <= 0)
+            throw new ArgumentException("Payment amount cannot be equal to zero or lower", nameof(amount));
 
-        if (paymentValueObject.Amount == 0)
-            throw new ArgumentException("Payment amount cannot be equal to zero or lower", nameof(paymentValueObject));
-
-        var futureAmount = TotalPaymentAmount + paymentValueObject.Amount;
-        if (futureAmount > TotalPaymentAmount)
-            throw new ArgumentException("Total Payment amount cannot be greater than SellingPrice", nameof(paymentValueObject));
+        var futureAmount = TotalPaymentAmount + amount;
+        if (futureAmount > SellingPrice)
+            throw new ArgumentException("Total Payment amount cannot be greater than SellingPrice", nameof(amount));
 
 
-        _payments.Add(paymentValueObject);
+        _payments.Add(new Payment(null, amount, isSuccess));
     }
 
     public void SetAsSold()
     {
-        if (IsEligibleToFinishOrder)
+        if (IsApproved)
+        {
+            throw new ArgumentException("Already Approved");
+        }
+        else if (IsEligibleToApproveOrder)
         {
             IsApproved = true;
             UpdateDate = DateTime.Now;
+        }
+        else
+        {
+            throw new ArgumentException("Not eligible to sold");
         }
     }
 }

@@ -4,7 +4,7 @@ using Domain.ValueObjects;
 
 namespace Domain.Models;
 
-public class VehicleListing : BaseEntity, IAggregateRoot
+public class VehicleListing : BaseEntity, IEntity
 {
     protected internal VehicleListing() : base() { }
 

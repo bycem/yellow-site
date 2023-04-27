@@ -21,5 +21,7 @@ public class OrderEntityConfig : BaseEntityConfiguration<Order>
 
         builder.Property(x => x.SellingPrice).HasColumnType("money");
 
+        builder.Navigation("_payments").AutoInclude();
+
     }
 }

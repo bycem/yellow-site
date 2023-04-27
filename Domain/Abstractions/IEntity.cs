@@ -1,6 +1,6 @@
 ﻿namespace Domain.Abstractions
 {
-    public interface IAggregateRoot
+    public interface IEntity
     {
         public Guid Id { get; }
     }
