@@ -8,12 +8,12 @@ namespace Api.Controllers
 {
     [Authorize]
     [ApiController]
-    [Route("[controller]")]
-    public class ListingController : ControllerBase
+    [Route("api/[controller]")]
+    public class ListingsController : ControllerBase
     {
         private readonly IMediator _mediator;
 
-        public ListingController(IMediator mediator)
+        public ListingsController(IMediator mediator)
         {
             _mediator = mediator;
         }
@@ -26,7 +26,7 @@ namespace Api.Controllers
             return Ok(result);
         }
 
-        [HttpGet("list/active")]
+        [HttpGet("active")]
         public async Task<IActionResult> ActiveListings()
         {
             var result = await _mediator.Send(new GetActiveListingsQuery());

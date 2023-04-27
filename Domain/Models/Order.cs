@@ -7,19 +7,17 @@ public class Order : BaseEntity, IAggregateRoot
 {
     protected internal Order() { }
 
-    public Order(Guid id,
+    public Order(
         VehicleListing vehicleListing,
         Customer seller,
         Customer buyer,
-        decimal sellingPrice,
-        List<Payment> payments, bool isApproved, DateTime? createDate = null) : base(id, createDate)
+        decimal sellingPrice) : base(null, null)
     {
         VehicleListing = vehicleListing;
         Seller = seller;
         Buyer = buyer;
         SellingPrice = sellingPrice > 0 ? sellingPrice : throw new ArgumentException("Selling Price cannot be equal to zero or lower");
-        _payments = payments;
-        IsApproved = isApproved;
+        _payments = new List<Payment>();
     }
 
     public VehicleListing VehicleListing { get; protected set; }
@@ -29,6 +27,7 @@ public class Order : BaseEntity, IAggregateRoot
     public Customer Buyer { get; protected set; }
 
     public decimal SellingPrice { get; protected set; }
+
     public bool IsApproved { get; protected set; }
 
     public IReadOnlyCollection<Payment> Payments()
@@ -58,5 +57,14 @@ public class Order : BaseEntity, IAggregateRoot
 
 
         _payments.Add(paymentValueObject);
+    }
+
+    public void SetAsSold()
+    {
+        if (IsEligibleToFinishOrder)
+        {
+            IsApproved = true;
+            UpdateDate = DateTime.Now;
+        }
     }
 }

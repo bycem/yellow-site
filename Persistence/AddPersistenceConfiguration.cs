@@ -15,6 +15,7 @@ namespace Persistence
             services.AddDbContext<ApplicationDbContext>(options => options.UseSqlServer(connectionString));
 
             services.AddScoped(typeof(IRepository<>), typeof(BaseRepositoryImpl<>));
+            services.AddScoped<IOrderRepository, OrderRepository>();
 
             services.AddScoped<IVehicleListingRepository, VehicleListingImpl>();
             services.AddScoped<ICurrentCustomer, CurrentCustomerImpl>();

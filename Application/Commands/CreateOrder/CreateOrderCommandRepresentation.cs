@@ -2,4 +2,5 @@
 
 public class CreateOrderCommandRepresentation
 {
+    public Guid OrderId { get; set; }
 }

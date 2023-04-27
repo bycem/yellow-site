@@ -17,10 +17,6 @@ namespace Persistence.Repositories
         public async Task<T> GetById(Guid id)
         {
             var result = await _context.Set<T>().FirstOrDefaultAsync(x => x.Id == id);
-            if (result == null)
-            {
-                throw new ArgumentException($"{nameof(T)} not found by following Id:{{id}}");
-            }
 
             return result;
         }

@@ -1,5 +1,6 @@
 ﻿using Domain.Abstractions;
 using Domain.ValueObjects;
+#pragma warning disable CS8618
 
 namespace Domain.Models;
 
@@ -55,4 +56,8 @@ public class VehicleListing : BaseEntity, IAggregateRoot
         UpdateDate = DateTime.Now;
     }
 
+    public bool IsEligibleToCreateOrder()
+    {
+        return !IsSold;
+    }
 }

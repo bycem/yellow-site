@@ -18,7 +18,7 @@ namespace Persistence.Services.CurrentCustomer
             _context = context;
         }
 
-        public async Task<Customer> Get()
+        public async Task<Customer> GetAsync()
         {
             var currentUserId = await _currentUserService.GetUserIdAsync();
             var customer = await _context.Customers.FirstOrDefaultAsync(x => x.UserId == currentUserId);

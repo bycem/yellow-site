@@ -21,7 +21,7 @@ public class CreateVehicleListingCommandHandler : IRequestHandler<CreateVehicleL
 
     public async Task<CreateVehicleListingCommandRepresentation> Handle(CreateVehicleListingCommand request, CancellationToken cancellationToken)
     {
-        var currentCustomer = await _currentCustomer.Get();
+        var currentCustomer = await _currentCustomer.GetAsync();
 
         var anyActiveListing = await _vehicleRepository.HasAnyActiveListingAsync(request.Plate);
         if (anyActiveListing)
