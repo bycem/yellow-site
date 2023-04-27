@@ -28,10 +28,10 @@ and then you can access the swagger like below
 * http://localhost:8080/swagger
  
  ## Test On Postman
- You can test all cases with postman collection which is included in repository as 
+ You can test all cases with postman collection which is included in repository
 
-[Api.postman_collection.json](Postman Collection)
-
+[Download Postman Collection](./Api.postman_collection.json)
+![Postman Run](./Postman.png)
   
   ## Authors
 
