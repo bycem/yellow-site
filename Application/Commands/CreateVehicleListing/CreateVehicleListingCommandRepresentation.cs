@@ -2,5 +2,5 @@
 
 public class CreateVehicleListingCommandRepresentation
 {
-    public Guid Id { get; set; }
+    public Guid ListingId { get; set; }
 }

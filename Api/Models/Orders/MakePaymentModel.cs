@@ -10,7 +10,6 @@ namespace Api.Models.Orders
         public decimal Amount { get; set; }
 
         [FromBody]
-        [Required]
         public bool IsSuccess { get; set; }
     }
 }

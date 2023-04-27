@@ -1,5 +1,4 @@
 ﻿using Domain.Interfaces.Repositories;
-using Domain.Models;
 using MediatR;
 
 namespace Application.Queries.GetActiveListings
@@ -15,7 +14,7 @@ namespace Application.Queries.GetActiveListings
 
         public async Task<GetActiveListingsQueryRepresentation> Handle(GetActiveListingsQuery request, CancellationToken cancellationToken)
         {
-            IEnumerable<VehicleListing> activeListings = await _vehicleListingRepository.GetActiveListingsAsync();
+            var activeListings = await _vehicleListingRepository.GetActiveListingsAsync();
 
             var listingDtos = activeListings
                 .OrderByDescending(x => x.UpdateDate ?? x.CreateDate)

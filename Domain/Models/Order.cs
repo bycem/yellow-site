@@ -62,14 +62,16 @@ public class Order : BaseEntity, IEntity
         {
             throw new ArgumentException("Already Approved");
         }
-        else if (IsEligibleToApproveOrder)
+        else if (!IsEligibleToApproveOrder)
         {
-            IsApproved = true;
-            UpdateDate = DateTime.Now;
+            throw new ArgumentException("Not eligible to sold");
         }
         else
         {
-            throw new ArgumentException("Not eligible to sold");
+            VehicleListing.SetAsSold();
+
+            IsApproved = true;
+            UpdateDate = DateTime.Now;
         }
     }
 }

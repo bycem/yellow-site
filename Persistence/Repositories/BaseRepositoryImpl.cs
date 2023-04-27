@@ -14,7 +14,7 @@ namespace Persistence.Repositories
             _dbSet = context.Set<T>();
         }
 
-        public async Task<T> GetById(Guid id)
+        public async Task<T> GetByIdAsync(Guid id)
         {
             var result = await _context.Set<T>().FirstOrDefaultAsync(x => x.Id == id);
 
@@ -33,12 +33,6 @@ namespace Persistence.Repositories
             _context.Set<T>().Update(entity);
             _context.Entry(entity).State = EntityState.Modified;
 
-            await _context.SaveChangesAsync();
-        }
-
-        public async Task DeleteAsync(T entity)
-        {
-            _context.Set<T>().Remove(entity);
             await _context.SaveChangesAsync();
         }
     }

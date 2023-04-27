@@ -31,7 +31,7 @@ namespace Application.Commands.CreateOrder
                 throw new ArgumentException($"There is an active order for the vehicle listing");
             }
 
-            var listing = await _vehicleListingRepository.GetById(request.VehicleId);
+            var listing = await _vehicleListingRepository.GetByIdAsync(request.VehicleId);
             if (listing == null || listing.IsSold)
             {
                 throw new ArgumentException("Listing is not eligible for selling");

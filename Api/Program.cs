@@ -12,12 +12,15 @@ using Microsoft.OpenApi.Models;
 using Persistence;
 using Persistence.Services.CurrentCustomer;
 using System.Text;
+using Domain.Interfaces.DomainServices;
 
 var builder = WebApplication.CreateBuilder(args);
 ConfigurationManager configuration = builder.Configuration;
 
 // For Entity Framework
 builder.Services.AddPersistenceConfig(configuration.GetConnectionString("connMSSQL"));
+
+builder.Services.AddSingleton<IOrderDomainService, OrderDomainServiceImpl>();
 
 // For Identity
 builder.Services.AddIdentity<IdentityUser, IdentityRole>(options =>

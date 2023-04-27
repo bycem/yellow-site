@@ -3,6 +3,7 @@ using Domain.Interfaces.Services;
 using Domain.Models;
 using Domain.ValueObjects;
 using MediatR;
+#pragma warning disable CS8604
 
 namespace Application.Commands.CreateVehicleListing;
 
@@ -21,13 +22,13 @@ public class CreateVehicleListingCommandHandler : IRequestHandler<CreateVehicleL
 
     public async Task<CreateVehicleListingCommandRepresentation> Handle(CreateVehicleListingCommand request, CancellationToken cancellationToken)
     {
-        var currentCustomer = await _currentCustomer.GetAsync();
-
         var anyActiveListing = await _vehicleRepository.HasAnyActiveListingAsync(request.Plate);
         if (anyActiveListing)
         {
             throw new ArgumentException($"There is active listing by following plate:{request.Plate}");
         }
+
+        var currentCustomer = await _currentCustomer.GetAsync();
 
         var listing = new VehicleListing(
             currentCustomer,
@@ -41,7 +42,7 @@ public class CreateVehicleListingCommandHandler : IRequestHandler<CreateVehicleL
 
         var id = await _vehicleRepository.CreateAsync(listing);
 
-        return new CreateVehicleListingCommandRepresentation() { Id = id };
+        return new CreateVehicleListingCommandRepresentation() { ListingId = id };
 
     }
 }
